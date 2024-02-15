@@ -1,0 +1,46 @@
+# exercicio 2 - Desafio 2 #
+
+class ClienteMulher(Cliente):
+    def __init__(self, nome, telefone, renda_mensal):
+        self.__init__(nome, telefone, renda_mensal)
+        self.__cheque_especial = renda_mensal
+
+    def cheque_especial(self):
+        return self.__cheque_especial
+
+    def possui_cheque_especial(self):
+        return True
+class ClienteHomem(Cliente):
+    def possui_cheque_especial(self):
+        return False
+
+class ContaCorrente:
+    def __init__(self, clientes):
+        self.__clientes = clientes
+        self.__saldo = 0.0
+        self.__operacoes = []
+    def saldo(self):
+        return self.__saldo
+          
+    def operacoes(self):
+        return self.__operacoes
+
+    def depositar(self, valor):
+        self.__saldo += valor
+        self.__operacoes.append(f'Depósito de {valor}')
+
+    def sacar(self, valor):
+        if self.__pode_sacar(valor):
+            self.__saldo -= valor
+            self.__operacoes.append(f'Saque de {valor}')
+        else:
+            print("Saldo insuficiente.")
+
+    def __pode_sacar(self, valor):
+        saldo_disponivel = self.__saldo
+
+        for cliente in self.__clientes:
+            if cliente.possui_cheque_especial():
+                saldo_disponivel -= cliente.cheque_especial
+
+        return saldo_disponivel >= valor
